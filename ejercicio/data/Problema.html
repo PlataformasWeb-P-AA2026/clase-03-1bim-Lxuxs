@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Instituciones Educativas</title>
+
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #mensajeFinal p {
+      background: #f2f2f2;
+      padding: 8px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Listado de Instituciones Educativas</h1>
+
+  <button id="obtenerInformacion">Obtener información</button>
+  <button id="limpiarInformacion">Limpiar información</button>
+
+  <div id="mensajeFinal"></div>
+
+  <script>
+    $(document).ready(function () {
+
+      var url = "data_instituciones.json";
+
+      $("#obtenerInformacion").click(function () {
+
+        $.ajax({
+          dataType: 'json',
+          url: url
+        })
+
+        .done(function (data) {
+
+          console.log(data);
+
+          for (var i = 0; i < data.length; i++) {
+
+            $("#mensajeFinal").append(
+              "<p>" +
+              "<b>Institución:</b> " + data[i]["Nombre-Educativa"] + "<br>" +
+              "<b>Provincia:</b> " + data[i].Provincia + "<br>" +
+              "<b>Cantón:</b> " + data[i].Canton + "<br>" +
+              "<b>Código AMIE:</b> " + data[i].AMIE + "<br>" +
+              "<b>Estado:</b> " + data[i].Estado +
+              "</p>"
+            );
+
+          }
+
+        })
+
+        .fail(function (error) {
+          console.error("Error al cargar el JSON:", error);
+          alert("No se pudo cargar el archivo JSON");
+        });
+
+      });
+
+      $("#limpiarInformacion").click(function () {
+        $("#mensajeFinal").empty();
+      });
+
+    });
+  </script>
+
+</body>
+</html>
